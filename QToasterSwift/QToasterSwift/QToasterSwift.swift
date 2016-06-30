@@ -108,10 +108,10 @@ public class QToasterSwift: UIView {
             iconView.userInteractionEnabled = false
             self.addSubview(iconView)
         }
-        viewController.view.addSubview(toastButton)
+        viewController.navigationController.view.addSubview(toastButton)
         toastButton.addSubview(self)
         
-        viewController.view.userInteractionEnabled = true
+        viewController.navigationController.view.userInteractionEnabled = true
         toastButton.addTarget(self, action: "touchAction", forControlEvents: UIControlEvents.TouchUpInside)
         
         UIView.animateWithDuration(0.1, delay: 0, options: UIViewAnimationOptions.AllowUserInteraction,
