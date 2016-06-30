@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "QToasterSwift"
-  s.version      = "0.0.1"
+  s.version      = "0.0.2"
   s.summary      = "Simple Swift in App toast notification"
 
   s.description  = <<-DESC
@@ -11,13 +11,13 @@ Pod::Spec.new do |s|
   s.homepage     = "http://qisc.us"
 
   s.license      = "MIT"
-  s.author    = "Ahmad Athaullah"
+  s.author       = "Ahmad Athaullah"
 
   s.source       = { :git => "https://github.com/a-athaullah/QToasterSwift.git", :tag => "#{s.version}" }
 
 
   s.source_files  = "QToasterSwift/QToasterSwift/*.swift"
-  s.platform     = :ios, "8.3"
+  s.platform      = :ios, "8.3"
 
   s.dependency "AlamofireImage", "~> 2.4"
 
