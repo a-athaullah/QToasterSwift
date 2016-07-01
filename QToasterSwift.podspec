@@ -19,6 +19,4 @@ Pod::Spec.new do |s|
   s.source_files  = "QToasterSwift/QToasterSwift/*.swift"
   s.platform      = :ios, "8.3"
 
-  s.dependency "AlamofireImage", "~> 2.4"
-
 end
