@@ -7,6 +7,13 @@
 
 Simple Swift in-app toast notification
 
+[![Alt][screenshot1_thumb]][screenshot1]    [![Alt][screenshot2_thumb]][screenshot2]
+
+[screenshot1_thumb]: https://raw.githubusercontent.com/a-athaullah/QToasterSwift/master/Screenshoot/QToasterSwift-all.gif
+[screenshot1]: https://github.com/a-athaullah/QToasterSwift/blob/master/Screenshoot/QToasterSwift-all.gif
+[screenshot2_thumb]: https://raw.githubusercontent.com/a-athaullah/QToasterSwift/master/Screenshoot/QToasterSwift-redBg.gif
+[screenshot2]: https://github.com/a-athaullah/QToasterSwift/blob/master/Screenshoot/QToasterSwift-redBg.gif
+
 ## Features
 
 - Show toast notification
