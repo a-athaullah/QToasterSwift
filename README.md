@@ -1,10 +1,13 @@
 # QToasterSwift
 
-QToasterSwift is a extented UIImageView library written in Swift.
+Simple Swift in-app toast notification
 
 ## Features
 
-- Load image from URL
+- Show toast notification
+- Customable color and font
+- show toast notification with icon
+- show toast notification with icon from URL
 
 ## Requirements
 
