@@ -1,13 +1,16 @@
 # QToasterSwift
+[![CocoaPods](https://img.shields.io/cocoapods/v/QToasterSwift.svg)](https://cocoapods.org/pods/QToasterSwift)
+
 
 Simple Swift in-app toast notification
 
 ## Features
 
 - Show toast notification
-- Customable color and font
 - show toast notification with icon
 - show toast notification with icon from URL
+- add action on toaster onTouch
+- Customable color, font, icon size, animate duration and delay duration
 
 ## Requirements
 
@@ -20,11 +23,11 @@ Simple Swift in-app toast notification
 
 ```bash
 $ gem install cocoapods
-```a
+```
 
 To integrate QToasterSwift into your Xcode project using CocoaPods, specify it in your `Podfile`:
 
-```ruby
+```
 source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '9.0'
 use_frameworks!

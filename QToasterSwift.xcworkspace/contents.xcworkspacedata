@@ -5,6 +5,9 @@
       location = "group:QToasterSwift.podspec">
    </FileRef>
    <FileRef
+      location = "group:README.md">
+   </FileRef>
+   <FileRef
       location = "group:QToasterSwift/QToasterSwift.xcodeproj">
    </FileRef>
    <FileRef
