@@ -8,131 +8,398 @@
 
 import UIKit
 
-public class QToasterSwift: UIView {
+public class QToasterSwift: NSObject {
+    
+    var minHeight:CGFloat{
+        return self.statusBarHeight + 40
+    }
     
     public var toastAction:()->Void = ({})
-    public var toastFont = UIFont.systemFontOfSize(11.0)
-    public var titleFont = UIFont.systemFontOfSize(11.0)
+    public var textAlignment:NSTextAlignment = NSTextAlignment.Center
+    public var textFont = UIFont.systemFontOfSize(11.0)
+    public var titleFont = UIFont.systemFontOfSize(11.0, weight: 0.8)
+    
+    public var titleText:String?
+    public var text:String = ""
+    public var iconImage:UIImage?
+    public var iconURL:String?
+    
+    public var backgroundColor: UIColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.8)
+    public var textColor: UIColor = UIColor.whiteColor()
+    public var animateDuration:NSTimeInterval = 0.2
+    public var delayDuration:NSTimeInterval = 4.0
+    
+    public var iconSquareSize:CGFloat = 35.0
+    public var iconCornerRadius:CGFloat = 4.0
+    public var iconBackgroundColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1)
+    
+    var textSize:CGSize{
+        if self.iconImage == nil && (self.iconURL == nil || self.iconURL == "") {
+            return textSize(self.text, font: self.textFont, maxWidth: self.width - 20)
+        }else{
+            return textSize(self.text, font: self.textFont, maxWidth: self.width - self.iconSquareSize - 25)
+        }
+    }
+    var titleSize:CGSize{
+        if self.titleText != nil && self.titleText != ""{
+            if self.iconImage == nil && (self.iconURL == nil || self.iconURL == "") {
+                return textSize(self.titleText!, font: self.textFont, maxWidth: self.width - 20)
+            }else{
+                return textSize(self.titleText!, font: self.textFont, maxWidth: self.width -  self.iconSquareSize - 25)
+            }
+        }else{
+            return CGSizeMake(0, 0)
+        }
+    }
+    
+    var width:CGFloat{
+        get{
+            return UIScreen.mainScreen().bounds.size.width
+        }
+    }
+    
+    var statusBarHeight:CGFloat{
+        get{
+            return UIApplication.sharedApplication().statusBarFrame.size.height
+        }
+    }
+    
     
     func textSize(text: NSString, font: UIFont, maxWidth: CGFloat)->CGSize{
         let rect = text.boundingRectWithSize(CGSizeMake(maxWidth, CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil) as CGRect
         return rect.size
     }
-    public func toastMessage(message:String, viewController:UIViewController, title:String? = nil, backgroundColor:UIColor? = nil, textColor:UIColor? = nil, imagePlaceHolder:UIImage? = nil, imageURL:String? = nil){
-        
-        let statusBarHeight = UIApplication.sharedApplication().statusBarFrame.size.height
-        let toastWidth:CGFloat = UIScreen.mainScreen().bounds.size.width
-        
-        var textWidth:CGFloat = toastWidth - 20
-        
-        if imagePlaceHolder != nil || imageURL != nil{
-            textWidth -= 45
-        }
-        var titleText:String = ""
-        if  title != nil && title != "" {
-            titleText = title!
-        }
-        let titleHeight = self.textSize(titleText, font: titleFont, maxWidth: textWidth).height
-        
-        let textHeight:CGFloat = textSize(message, font: toastFont, maxWidth: textWidth).height
-        var toastHeight:CGFloat = textHeight + 20 + statusBarHeight
-        if imagePlaceHolder != nil || imageURL != nil{
-            toastHeight = 50 + statusBarHeight
-            if (textHeight + titleHeight + 1) > 30 {
-                toastHeight = textHeight + 21 + statusBarHeight + titleHeight
-            }
-        }
-        
-        var labelFrame = CGRectMake(10, 10 + statusBarHeight, textWidth, textHeight)
-        if imagePlaceHolder != nil || imageURL != nil{
-            labelFrame = CGRectMake(45, 10 + statusBarHeight, textWidth, textHeight)
-        }
-        
-        var titleLabel = UILabel()
-        var toasterFrame = CGRectMake(0,0 - textHeight,toastWidth,toastHeight)
-        var buttonFrame = CGRectMake(0,0,toastWidth,toastHeight)
-        // setup title if exist
-        if title != nil && title != "" {
-            let titleFrame = CGRectMake(labelFrame.origin.x, 10 + statusBarHeight, textWidth, titleHeight)
+    public func toast(target: UIViewController){
+        if text != "" {
+            var textAreaWidth =  self.width - 20
+            var imageToasterHeight:CGFloat = 0
+            var textXPos:CGFloat = 10
             
-            titleLabel = UILabel(frame: titleFrame)
-            titleLabel.font = titleFont
-            titleLabel.textAlignment = NSTextAlignment.Left
-            titleLabel.text = title
-            titleLabel.textColor = UIColor.blackColor()
-            titleLabel.userInteractionEnabled = false
-            labelFrame.origin.y += titleHeight + 1
-            toasterFrame.size.height += titleHeight + 1
-            buttonFrame.size.height += titleHeight + 1
-        }
-        
-        self.frame = toasterFrame
-        self.userInteractionEnabled = false
-        
-        let toastButton = UIButton(frame: buttonFrame)
-        toastButton.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
-        
-        if backgroundColor != nil {
-            self.backgroundColor = backgroundColor
-        }else{
-            self.backgroundColor = UIColor.whiteColor()
-        }
-        if title != nil && title != "" {
-            self.addSubview(titleLabel)
-        }
-        let messageLabel = UILabel(frame: labelFrame)
-        messageLabel.font = toastFont
-        messageLabel.numberOfLines = 0
-        messageLabel.text = message
-        messageLabel.textColor = UIColor.blackColor()
-        messageLabel.userInteractionEnabled = false
-        if textColor != nil {
-            messageLabel.textColor = textColor!
-            titleLabel.textColor = textColor!
-        }
-        messageLabel.textAlignment = NSTextAlignment.Left
-        
-        self.addSubview(messageLabel)
-        
-        if imagePlaceHolder != nil || imageURL != nil{
-            let iconView = UIImageView(frame: CGRectMake(10, 10 + statusBarHeight, 30, 30))
-            iconView.layer.cornerRadius = 5
-            iconView.clipsToBounds = true
-            if imageURL != nil && imageURL != ""{
-                imageForUrl(imageURL!, completionHandler:{(image: UIImage?, url: String) in
-                    iconView.image = image
-                })
+            if self.iconImage != nil || (self.iconURL != nil && self.iconURL != ""){
+                imageToasterHeight = self.iconSquareSize + self.statusBarHeight + 20
+                textAreaWidth -= (self.iconSquareSize + 5)
+                self.textAlignment = NSTextAlignment.Left
+                textXPos += self.iconSquareSize + 5
+            }
+            
+            var toasterHeight = self.textSize.height + self.titleSize.height + self.statusBarHeight + 20
+            if self.titleSize.height > 0 {
+                toasterHeight += 3
+            }
+            if toasterHeight < self.minHeight {
+                toasterHeight = self.minHeight
+            }
+            
+            if toasterHeight < imageToasterHeight{
+                toasterHeight = imageToasterHeight
+            }
+            
+            
+            var yPos:CGFloat = self.statusBarHeight + 10
+            
+            let toasterViewFrame = CGRectMake(0,0 - toasterHeight, self.width,toasterHeight)
+            
+            let toasterView = UIView(frame: toasterViewFrame)
+            toasterView.userInteractionEnabled = false
+            toasterView.backgroundColor = self.backgroundColor
+            
+            if self.iconImage != nil || (self.iconURL != nil && self.iconURL != ""){
+                let iconView = UIImageView(frame: CGRectMake(10, yPos, self.iconSquareSize, self.iconSquareSize))
+                iconView.backgroundColor = self.iconBackgroundColor
+                iconView.layer.cornerRadius = self.iconCornerRadius
+                iconView.clipsToBounds = true
+                
+                if self.iconImage != nil {
+                    iconView.image = self.iconImage
+                }
+                if self.iconURL != nil && self.iconURL != "" {
+                    QToasterSwift.imageForUrl(self.iconURL!, completionHandler:{(image: UIImage?, url: String) in
+                        iconView.image = image
+                    })
+                }
+                toasterView.addSubview(iconView)
+            }
+            
+            if self.titleText != nil && self.titleText != "" {
+                let titleLabel = UILabel(frame: CGRectMake(textXPos, yPos, textAreaWidth, self.titleSize.height))
+                titleLabel.numberOfLines = 0
+                titleLabel.textAlignment = self.textAlignment
+                titleLabel.text = self.titleText
+                titleLabel.textColor = self.textColor
+                titleLabel.font = self.titleFont
+                toasterView.addSubview(titleLabel)
+                yPos += 3 + self.titleSize.height
             }else{
-                iconView.image = imagePlaceHolder
+                yPos = ((toasterHeight - self.textSize.height) / 2) + 10
             }
-            iconView.contentMode = UIViewContentMode.ScaleAspectFill
-            iconView.userInteractionEnabled = false
-            self.addSubview(iconView)
+            
+            let textLabel = UILabel(frame: CGRectMake(textXPos, yPos, textAreaWidth, self.textSize.height))
+            textLabel.text = self.text
+            textLabel.textAlignment = self.textAlignment
+            textLabel.textColor = self.textColor
+            textLabel.numberOfLines = 0
+            textLabel.font = self.textFont
+            toasterView.addSubview(textLabel)
+            
+            let toastButton = UIButton(frame: CGRectMake(0, 0, self.width, toasterHeight))
+            toastButton.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
+            toastButton.addTarget(self, action: "touchAction", forControlEvents: UIControlEvents.TouchUpInside)
+            toastButton.addSubview(toasterView)
+            
+            target.navigationController?.view.addSubview(toastButton)
+            target.navigationController?.view.userInteractionEnabled = true
+            
+            
+            UIView.animateWithDuration(self.animateDuration, delay: 0, options: UIViewAnimationOptions.AllowUserInteraction, animations: {
+                let showFrame = CGRectMake(0,0,self.width,toasterHeight)
+                toasterView.frame = showFrame
+                }, completion: { _ in
+                    UIView.animateWithDuration(self.animateDuration, delay: self.delayDuration, options: UIViewAnimationOptions.AllowUserInteraction,
+                        animations: {
+                            let hideFrame = CGRectMake(0,0 - toasterHeight,self.width,toasterHeight)
+                            toasterView.frame = hideFrame
+                        },
+                        completion: { _ in
+                            toasterView.removeFromSuperview()
+                            toastButton.removeFromSuperview()
+                        }
+                    )
+                }
+            )
+            
         }
-        viewController.navigationController?.view.addSubview(toastButton)
-        toastButton.addSubview(self)
-        
-        viewController.navigationController?.view.userInteractionEnabled = true
-        toastButton.addTarget(self, action: "touchAction", forControlEvents: UIControlEvents.TouchUpInside)
-        
-        UIView.animateWithDuration(0.1, delay: 0, options: UIViewAnimationOptions.AllowUserInteraction,
-                                   animations: {
-                                    let showFrame = CGRectMake(0,0,toastWidth,toastHeight)
-                                    self.frame = showFrame
-            },
-                                   completion: { _ in
-                                    UIView.animateWithDuration(0.1, delay: 4.0, options: UIViewAnimationOptions.AllowUserInteraction,
-                                        animations: {
-                                            let hideFrame = CGRectMake(0,0 - toastHeight,toastWidth,toastHeight)
-                                            self.frame = hideFrame
-                                        },
-                                        completion: { _ in
-                                            self.removeFromSuperview()
-                                            toastButton.removeFromSuperview()
-                                        }
-                                    )
+    }
+    public class func toast(target: UIViewController, text: String, title:String? = nil, iconURL:String? = nil, iconPlaceHolder:UIImage? = nil, backgroundColor:UIColor? = nil, textColor:UIColor? = nil, onTouch: ()->Void = ({})){
+        if text != "" {
+            let toaster = QToasterSwift()
+            toaster.text = text
+            toaster.titleText = title
+            toaster.iconURL = iconURL
+            toaster.iconImage = iconPlaceHolder
+            toaster.toastAction = onTouch
+            
+            if backgroundColor != nil {
+                toaster.backgroundColor = backgroundColor!
             }
-        )
+            if textColor != nil {
+                toaster.textColor = textColor!
+            }
+            
+            var textAreaWidth =  toaster.width - 20
+            var imageToasterHeight:CGFloat = 0
+            var textXPos:CGFloat = 10
+            
+            if toaster.iconImage != nil || (toaster.iconURL != nil && toaster.iconURL != ""){
+                imageToasterHeight = toaster.iconSquareSize + toaster.statusBarHeight + 20
+                textAreaWidth -= (toaster.iconSquareSize + 5)
+                toaster.textAlignment = NSTextAlignment.Left
+                textXPos += toaster.iconSquareSize + 5
+            }
+            
+            var toasterHeight = toaster.textSize.height + toaster.titleSize.height + toaster.statusBarHeight + 20
+            if toaster.titleSize.height > 0 {
+                toasterHeight += 3
+            }
+            if toasterHeight < toaster.minHeight {
+                toasterHeight = toaster.minHeight
+            }
+            
+            if toasterHeight < imageToasterHeight{
+                toasterHeight = imageToasterHeight
+            }
+            
+            
+            var yPos:CGFloat = toaster.statusBarHeight + 10
+            
+            let toasterViewFrame = CGRectMake(0,0 - toasterHeight, toaster.width,toasterHeight)
+            
+            let toasterView = UIView(frame: toasterViewFrame)
+            toasterView.userInteractionEnabled = false
+            toasterView.backgroundColor = toaster.backgroundColor
+            
+            if toaster.iconImage != nil || (toaster.iconURL != nil && toaster.iconURL != ""){
+                let iconView = UIImageView(frame: CGRectMake(10, yPos, toaster.iconSquareSize, toaster.iconSquareSize))
+                iconView.backgroundColor = toaster.iconBackgroundColor
+                iconView.layer.cornerRadius = toaster.iconCornerRadius
+                iconView.clipsToBounds = true
+                
+                if toaster.iconImage != nil {
+                    iconView.image = toaster.iconImage
+                }
+                if toaster.iconURL != nil && toaster.iconURL != "" {
+                    QToasterSwift.imageForUrl(toaster.iconURL!, completionHandler:{(image: UIImage?, url: String) in
+                        iconView.image = image
+                    })
+                }
+                toasterView.addSubview(iconView)
+            }
+            
+            if toaster.titleText != nil && toaster.titleText != "" {
+                let titleLabel = UILabel(frame: CGRectMake(textXPos, yPos, textAreaWidth, toaster.titleSize.height))
+                titleLabel.numberOfLines = 0
+                titleLabel.textAlignment = toaster.textAlignment
+                titleLabel.text = toaster.titleText
+                titleLabel.textColor = toaster.textColor
+                titleLabel.font = toaster.titleFont
+                toasterView.addSubview(titleLabel)
+                yPos += 3 + toaster.titleSize.height
+            }else{
+                yPos = ((toasterHeight - toaster.textSize.height) / 2) + 10
+            }
+            
+            let textLabel = UILabel(frame: CGRectMake(textXPos, yPos, textAreaWidth, toaster.textSize.height))
+            textLabel.text = toaster.text
+            textLabel.textAlignment = toaster.textAlignment
+            textLabel.textColor = toaster.textColor
+            textLabel.numberOfLines = 0
+            textLabel.font = toaster.textFont
+            toasterView.addSubview(textLabel)
+            
+            let toastButton = UIButton(frame: CGRectMake(0, 0, toaster.width, toasterHeight))
+            toastButton.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
+            toastButton.addTarget(self, action: "touchAction", forControlEvents: UIControlEvents.TouchUpInside)
+            toastButton.addSubview(toasterView)
+            
+            target.navigationController?.view.addSubview(toastButton)
+            target.navigationController?.view.userInteractionEnabled = true
+            
+            
+            UIView.animateWithDuration(toaster.animateDuration, delay: 0, options: UIViewAnimationOptions.AllowUserInteraction, animations: {
+                    let showFrame = CGRectMake(0,0,toaster.width,toasterHeight)
+                    toasterView.frame = showFrame
+                }, completion: { _ in
+                    UIView.animateWithDuration(toaster.animateDuration, delay: toaster.delayDuration, options: UIViewAnimationOptions.AllowUserInteraction,
+                        animations: {
+                            let hideFrame = CGRectMake(0,0 - toasterHeight,toaster.width,toasterHeight)
+                            toasterView.frame = hideFrame
+                        },
+                        completion: { _ in
+                            toasterView.removeFromSuperview()
+                            toastButton.removeFromSuperview()
+                        }
+                    )
+                }
+            )
+            
+        }
+    }
+    public class func toastWithIcon(target: UIViewController, text: String, icon:UIImage?, title:String? = nil, backgroundColor:UIColor? = nil, textColor:UIColor? = nil, onTouch: ()->Void = ({})){
+        if text != "" {
+            let toaster = QToasterSwift()
+            toaster.text = text
+            toaster.titleText = title
+            toaster.iconImage = icon
+            toaster.toastAction = onTouch
+            
+            if backgroundColor != nil {
+                toaster.backgroundColor = backgroundColor!
+            }
+            if textColor != nil {
+                toaster.textColor = textColor!
+            }
+            
+            var textAreaWidth =  toaster.width - 20
+            var imageToasterHeight:CGFloat = 0
+            var textXPos:CGFloat = 10
+            
+            if toaster.iconImage != nil || (toaster.iconURL != nil && toaster.iconURL != ""){
+                imageToasterHeight = toaster.iconSquareSize + toaster.statusBarHeight + 20
+                textAreaWidth -= (toaster.iconSquareSize + 5)
+                toaster.textAlignment = NSTextAlignment.Left
+                textXPos += toaster.iconSquareSize + 5
+            }
+            
+            var toasterHeight = toaster.textSize.height + toaster.titleSize.height + toaster.statusBarHeight + 20
+            if toaster.titleSize.height > 0 {
+                toasterHeight += 3
+            }
+            if toasterHeight < toaster.minHeight {
+                toasterHeight = toaster.minHeight
+            }
+            
+            if toasterHeight < imageToasterHeight{
+                toasterHeight = imageToasterHeight
+            }
+            
+            
+            var yPos:CGFloat = toaster.statusBarHeight + 10
+            
+            let toasterViewFrame = CGRectMake(0,0 - toasterHeight, toaster.width,toasterHeight)
+            
+            let toasterView = UIView(frame: toasterViewFrame)
+            toasterView.userInteractionEnabled = false
+            toasterView.backgroundColor = toaster.backgroundColor
+            
+            if toaster.iconImage != nil || (toaster.iconURL != nil && toaster.iconURL != ""){
+                let iconView = UIImageView(frame: CGRectMake(10, yPos, toaster.iconSquareSize, toaster.iconSquareSize))
+                iconView.backgroundColor = toaster.iconBackgroundColor
+                iconView.layer.cornerRadius = toaster.iconCornerRadius
+                iconView.clipsToBounds = true
+                
+                if toaster.iconImage != nil {
+                    iconView.image = toaster.iconImage
+                }
+                if toaster.iconURL != nil && toaster.iconURL != "" {
+                    QToasterSwift.imageForUrl(toaster.iconURL!, completionHandler:{(image: UIImage?, url: String) in
+                        iconView.image = image
+                    })
+                }
+                toasterView.addSubview(iconView)
+            }
+            
+            if toaster.titleText != nil && toaster.titleText != "" {
+                let titleLabel = UILabel(frame: CGRectMake(textXPos, yPos, textAreaWidth, toaster.titleSize.height))
+                titleLabel.numberOfLines = 0
+                titleLabel.textAlignment = toaster.textAlignment
+                titleLabel.text = toaster.titleText
+                titleLabel.textColor = toaster.textColor
+                titleLabel.font = toaster.titleFont
+                toasterView.addSubview(titleLabel)
+                yPos += 3 + toaster.titleSize.height
+            }else{
+                yPos = ((toasterHeight - toaster.textSize.height) / 2) + 10
+            }
+            
+            let textLabel = UILabel(frame: CGRectMake(textXPos, yPos, textAreaWidth, toaster.textSize.height))
+            textLabel.text = toaster.text
+            textLabel.textAlignment = toaster.textAlignment
+            textLabel.textColor = toaster.textColor
+            textLabel.numberOfLines = 0
+            textLabel.font = toaster.textFont
+            toasterView.addSubview(textLabel)
+            
+            let toastButton = UIButton(frame: CGRectMake(0, 0, toaster.width, toasterHeight))
+            toastButton.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
+            toastButton.addTarget(self, action: "touchAction", forControlEvents: UIControlEvents.TouchUpInside)
+            toastButton.addSubview(toasterView)
+            
+            target.navigationController?.view.addSubview(toastButton)
+            target.navigationController?.view.userInteractionEnabled = true
+            
+            
+            UIView.animateWithDuration(toaster.animateDuration, delay: 0, options: UIViewAnimationOptions.AllowUserInteraction, animations: {
+                let showFrame = CGRectMake(0,0,toaster.width,toasterHeight)
+                toasterView.frame = showFrame
+                }, completion: { _ in
+                    UIView.animateWithDuration(toaster.animateDuration, delay: toaster.delayDuration, options: UIViewAnimationOptions.AllowUserInteraction,
+                        animations: {
+                            let hideFrame = CGRectMake(0,0 - toasterHeight,toaster.width,toasterHeight)
+                            toasterView.frame = hideFrame
+                        },
+                        completion: { _ in
+                            toasterView.removeFromSuperview()
+                            toastButton.removeFromSuperview()
+                        }
+                    )
+                }
+            )
+            
+        }
+    }
+    public func toast(target: UIViewController, text: String, title:String? = nil){
+        if self.text != "" {
+            print("toast inside Class")
+        }
     }
     
     public func touchAction(){
@@ -150,7 +417,7 @@ public class QToasterSwift: UIView {
     //  Created by Nate Lyman on 7/5/14.
     //  Copyright (c) 2014 NateLyman.com. All rights reserved.
     //
-    func imageForUrl(urlString: String, completionHandler:(image: UIImage?, url: String) -> ()) {
+    class func imageForUrl(urlString: String, completionHandler:(image: UIImage?, url: String) -> ()) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {()in
             let cache = NSCache()
             let data: NSData? = cache.objectForKey(urlString) as? NSData
