@@ -1,11 +1,11 @@
 Pod::Spec.new do |s|
 
   s.name         = "QToasterSwift"
-  s.version      = "0.0.6"
+  s.version      = "0.0.7"
   s.summary      = "Simple Swift in App toast notification"
 
   s.description  = <<-DESC
-                    Simple Swift in App toast notification
+                    QToasterSwift is small and simple library to show in app notification (toaster) with capability to customize toaster appearance.
                  DESC
 
   s.homepage     = "http://qisc.us"

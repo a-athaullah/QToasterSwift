@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:QToasterSwift.podspec">
+   </FileRef>
+   <FileRef
       location = "group:QToasterSwift/QToasterSwift.xcodeproj">
    </FileRef>
    <FileRef

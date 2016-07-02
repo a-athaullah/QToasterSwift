@@ -289,6 +289,7 @@
 				3907D3251D24E16A00A6407D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
