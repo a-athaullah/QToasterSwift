@@ -12,10 +12,26 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    var navController = UINavigationController()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        UINavigationBar.appearance().translucent = false
+        UINavigationBar.appearance().barStyle = .Black
+        
+        
+        self.navController.navigationBar.tintColor = UIColor.whiteColor()
+        self.navController.navigationBar.barTintColor = UIColor(red: 51/255.0, green: 204/255.0, blue: 51/255.0, alpha: 1)
+        
+        let demoView = ViewController()
+        
+        self.navController.pushViewController(demoView, animated: true)
+        
+        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        self.window?.rootViewController = self.navController
+        self.window?.backgroundColor = UIColor.whiteColor()
+        self.window?.makeKeyAndVisible()
+        
         return true
     }
 
