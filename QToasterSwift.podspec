@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "QToasterSwift"
-  s.version      = "0.0.7"
+  s.version      = "0.0.8"
   s.summary      = "Simple Swift in App toast notification"
 
   s.description  = <<-DESC
