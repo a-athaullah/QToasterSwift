@@ -70,13 +70,18 @@ QToasterSwift.toast(self, text: "Welcome to QToasterSwift", title: "Welcome")
 ```
 
 ###Example 3 :
+
 Show toaster with icon UIImage and/or Image icon from URL:
+
 #####UIImage icon:
+
 ```
 let image = UIImage(named:"my-image")
 QToasterSwift.toastWithIcon(self, text: "Welcome to QToasterSwift", icon: image, title: "Welcome")
 ```
+
 #####Image from URL with placholder image:
+
 ```
 let placeholderImage = UIImage(named: "placeholder-image")
 let iconUrl = "https://my-icon-url/icon.jpg"
@@ -89,11 +94,13 @@ QToasterSwift.toast(self,
 
 ###Example 4 :
 More complex basic toaster with onTouch action:
+
 ```
 let placeholderImage = UIImage(named: "placeholder-image")
 let iconUrl = "https://my-icon-url/icon.jpg"
 
-QToasterSwift.toast(self, text: "Welcome to QToasterSwift sample usage code", 
+QToasterSwift.toast(self, 
+					text: "Welcome to QToasterSwift sample usage code", 
 					title: "Welcome", 
 					iconURL: iconUrl, 
 					iconPlaceHolder: placeholderImage,
@@ -106,3 +113,50 @@ QToasterSwift.toast(self, text: "Welcome to QToasterSwift sample usage code",
 ```
 
 ##Customable Toaster
+QToasterSwift also support more configurable styling parameters.
+
+####to configure styling parameters:
+
+```
+let placeholderImage = UIImage(named: "placeholder-image")
+let iconUrl = "https://my-icon-url/icon.jpg"
+
+let toaster = QToasterSwift()
+
+toaster.textAlignment = NSTextAlignment.Center
+toaster.textFont = UIFont.systemFontOfSize(11.0)
+toaster.titleFont = UIFont.systemFontOfSize(11.0, weight: 0.8)
+    
+toaster.titleText = "Welcome"
+toaster.text = "Welcome to QToasterSwift sample usage code"
+toaster.iconImage = placeholderImage
+toaster.iconURL = iconUrl
+    
+toaster.backgroundColor = UIColor.blueColor()
+toaster.textColor: UIColor = UIColor.whiteColor()
+toaster.animateDuration = 0.1
+toaster.delayDuration = 3.0
+    
+toaster.iconSquareSize = 30.0
+toaster.iconCornerRadius = 5.0
+toaster.iconBackgroundColor = UIColor.blackColor()
+
+```
+
+####to show toaster:
+
+```
+toaster.toast(self) // self is your view controller
+```
+
+####to show toaster with onTouch action:
+
+```
+toaster.toast(self, onTouch: {
+            print("toaster touched")
+        })
+```
+
+
+##Support Us
+Please support us with your contribution and/or give us star to keep track this repository fir any update. Thanks.
