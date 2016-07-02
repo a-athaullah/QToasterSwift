@@ -80,7 +80,11 @@ QToasterSwift.toastWithIcon(self, text: "Welcome to QToasterSwift", icon: image,
 ```
 let placeholderImage = UIImage(named: "placeholder-image")
 let iconUrl = "https://my-icon-url/icon.jpg"
-QToasterSwift.toast(self, text: "Welcome to QToasterSwift", title: "Welcome", iconURL: iconUrl, iconPlaceHolder: placeholderImage)
+QToasterSwift.toast(self, 
+					text: "Welcome to QToasterSwift", 
+					title: "Welcome", 
+					iconURL: iconUrl, 
+					iconPlaceHolder: placeholderImage)
 ```
 
 ###Example 4 :
@@ -89,9 +93,16 @@ More complex basic toaster with onTouch action:
 let placeholderImage = UIImage(named: "placeholder-image")
 let iconUrl = "https://my-icon-url/icon.jpg"
 
-QToasterSwift.toast(self, text: "Welcome to QToasterSwift sample usage code", title: "Welcome", iconURL: iconUrl, iconPlaceHolder: placeholderImage, backgroundColor: UIColor.redColor(), textColor: UIColor.whiteColor(), onTouch: {
-                print("toaster touched")
-            })
+QToasterSwift.toast(self, text: "Welcome to QToasterSwift sample usage code", 
+					title: "Welcome", 
+					iconURL: iconUrl, 
+					iconPlaceHolder: placeholderImage,
+					backgroundColor: UIColor.redColor(),
+					textColor: UIColor.whiteColor(),
+					onTouch: {
+                		print("toaster touched")
+            		}
+)
 ```
 
 ##Customable Toaster
