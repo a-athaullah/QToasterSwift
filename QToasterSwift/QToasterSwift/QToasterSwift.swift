@@ -69,8 +69,9 @@ public class QToasterSwift: NSObject {
         let rect = text.boundingRectWithSize(CGSizeMake(maxWidth, CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil) as CGRect
         return rect.size
     }
-    public func toast(target: UIViewController){
+    public func toast(target: UIViewController, onTouch:()->Void = ({})){
         if text != "" {
+            self.addAction(onTouch)
             var textAreaWidth =  self.width - 20
             var imageToasterHeight:CGFloat = 0
             var textXPos:CGFloat = 10
