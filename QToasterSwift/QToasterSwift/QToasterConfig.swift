@@ -49,14 +49,71 @@ class QToasterConfig: NSObject {
         }
     }
     
-    class var iconSquareSize:NSTimeInterval{
+    class var iconSquareSize:CGFloat{
         get{
             return 35.0
         }
     }
-    class var iconCornerRadius:NSTimeInterval{
+    class var iconCornerRadius:CGFloat{
         get{
             return 3.0
         }
+    }
+    class var screenWidth:CGFloat{
+        get{
+            return UIScreen.mainScreen().bounds.size.width
+        }
+    }
+    class var statusBarHeight:CGFloat{
+        get{
+            return UIApplication.sharedApplication().statusBarFrame.size.height
+        }
+    }
+    
+    class func textSize(text: NSString, font: UIFont, maxWidth: CGFloat)->CGSize{
+        let rect = text.boundingRectWithSize(CGSizeMake(maxWidth, CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil) as CGRect
+        return rect.size
+    }
+    
+    //  func imageForUrl
+    //  taken from : ImageLoader.swift
+    //  extension
+    //
+    //  Created by Nate Lyman on 7/5/14.
+    //  git: https://github.com/natelyman/SwiftImageLoader
+    //  Copyright (c) 2014 NateLyman.com. All rights reserved.
+    //
+    class func imageForUrl(urlString: String, completionHandler:(image: UIImage?, url: String) -> ()) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {()in
+            let cache = NSCache()
+            let data: NSData? = cache.objectForKey(urlString) as? NSData
+            
+            if let goodData = data {
+                let image = UIImage(data: goodData)
+                dispatch_async(dispatch_get_main_queue(), {() in
+                    completionHandler(image: image, url: urlString)
+                })
+                return
+            }
+            
+            let downloadTask: NSURLSessionDataTask = NSURLSession.sharedSession().dataTaskWithURL(NSURL(string: urlString)!, completionHandler: {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
+                if (error != nil) {
+                    completionHandler(image: nil, url: urlString)
+                    return
+                }
+                
+                if let data = data {
+                    let image = UIImage(data: data)
+                    cache.setObject(data, forKey: urlString)
+                    dispatch_async(dispatch_get_main_queue(), {() in
+                        completionHandler(image: image, url: urlString)
+                    })
+                    return
+                }
+                
+            })
+            downloadTask.resume()
+        })
+        
     }
 }
