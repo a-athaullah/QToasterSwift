@@ -1,7 +1,6 @@
 # QToasterSwift
 [![CocoaPods](https://img.shields.io/cocoapods/v/QToasterSwift.svg)](https://cocoapods.org/pods/QToasterSwift)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/a-athaullah/QToasterSwift/master/LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/a-athaullah/QToasterSwift.svg)](https://github.com/a-athaullah/QToasterSwift/stargazers)
 [![iOS)](https://img.shields.io/badge/iOS-8.3%2B-blue.svg)](https://github.com/a-athaullah/QToasterSwift)
 [![iOS)](https://img.shields.io/badge/xCode-7.3%2B-blue.svg)](https://github.com/a-athaullah/QToasterSwift)
 
