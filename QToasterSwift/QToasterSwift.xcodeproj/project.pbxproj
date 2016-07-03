@@ -8,12 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		3907D3281D24E1AF00A6407D /* QToasterSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3907D3271D24E1AF00A6407D /* QToasterSwift.swift */; };
+		39F194DB1D289F1700EA0F71 /* QToasterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F194DA1D289F1700EA0F71 /* QToasterView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3907D31B1D24E16900A6407D /* QToasterSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = QToasterSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3907D3201D24E16A00A6407D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3907D3271D24E1AF00A6407D /* QToasterSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QToasterSwift.swift; sourceTree = "<group>"; };
+		39F194DA1D289F1700EA0F71 /* QToasterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QToasterView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,9 +57,18 @@
 		3907D3261D24E17300A6407D /* SourceFile */ = {
 			isa = PBXGroup;
 			children = (
+				39F194D91D289E8300EA0F71 /* View */,
 				3907D3271D24E1AF00A6407D /* QToasterSwift.swift */,
 			);
 			name = SourceFile;
+			sourceTree = "<group>";
+		};
+		39F194D91D289E8300EA0F71 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				39F194DA1D289F1700EA0F71 /* QToasterView.swift */,
+			);
+			name = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,6 +149,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3907D3281D24E1AF00A6407D /* QToasterSwift.swift in Sources */,
+				39F194DB1D289F1700EA0F71 /* QToasterView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
