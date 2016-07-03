@@ -12,22 +12,22 @@ public class QToasterSwift: NSObject {
 
     public var toastAction:()->Void = ({})
     public var textAlignment:NSTextAlignment = NSTextAlignment.Center
-    public var textFont = UIFont.systemFontOfSize(11.0)
-    public var titleFont = UIFont.systemFontOfSize(11.0, weight: 0.8)
+    public var textFont = QToasterConfig.textFont
+    public var titleFont = QToasterConfig.titleFont
     
     public var titleText:String?
     public var text:String = ""
     public var iconImage:UIImage?
     public var iconURL:String?
     
-    public var backgroundColor: UIColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.8)
-    public var textColor: UIColor = UIColor.whiteColor()
-    public var animateDuration:NSTimeInterval = 0.2
-    public var delayDuration:NSTimeInterval = 4.0
+    public var backgroundColor = QToasterConfig.backgroundColor
+    public var textColor = QToasterConfig.textColor
+    public var animateDuration = QToasterConfig.animateDuration
+    public var delayDuration = QToasterConfig.delayDuration
     
-    public var iconSquareSize:CGFloat = 35.0
-    public var iconCornerRadius:CGFloat = 4.0
-    public var iconBackgroundColor = UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1)
+    public var iconSquareSize = QToasterConfig.iconSquareSize
+    public var iconCornerRadius = QToasterConfig.iconCornerRadius
+    public var iconBackgroundColor = QToasterConfig.iconBackgroundColor
     
 
     public func toast(target: UIViewController, onTouch:()->Void = ({})){
@@ -41,27 +41,21 @@ public class QToasterSwift: NSObject {
             let toasterView = QToasterView()
             toasterView.setupToasterView(self)
             
-            let screenWidth = UIScreen.mainScreen().bounds.size.width
+            var previousToast: QToasterView?
+            if let lastToast = QToasterSwift.otherToastExist(target){
+                previousToast = lastToast
+            }
             
             target.navigationController?.view.addSubview(toasterView)
             target.navigationController?.view.userInteractionEnabled = true
             
-            
-            UIView.animateWithDuration(self.animateDuration, delay: 0, options: UIViewAnimationOptions.AllowUserInteraction, animations: {
-                let showFrame = CGRectMake(0,0,screenWidth,toasterView.frame.height)
-                toasterView.viewArea.frame = showFrame
-                }, completion: { _ in
-                    UIView.animateWithDuration(self.animateDuration, delay: self.delayDuration, options: UIViewAnimationOptions.AllowUserInteraction,
-                        animations: {
-                            let hideFrame = CGRectMake(0,0 - toasterView.frame.height,screenWidth,toasterView.frame.height)
-                            toasterView.frame = hideFrame
-                        },
-                        completion: { _ in
-                            toasterView.removeFromSuperview()
-                        }
-                    )
-                }
-            )
+            if previousToast != nil {
+                previousToast?.hide({
+                    toasterView.show()
+                })
+            }else{
+                toasterView.show()
+            }
             
         }
     }
@@ -81,8 +75,9 @@ public class QToasterSwift: NSObject {
                 toaster.textColor = textColor!
             }
             
-            if let previousToast = QToasterSwift.otherToastExist(target){
-                previousToast.removeFromSuperview()
+            var previousToast: QToasterView?
+            if let lastToast = QToasterSwift.otherToastExist(target){
+                previousToast = lastToast
             }
             
             let toastButton = QToasterView()
@@ -91,24 +86,13 @@ public class QToasterSwift: NSObject {
             target.navigationController?.view.addSubview(toastButton)
             target.navigationController?.view.userInteractionEnabled = true
             
-            let screenWidth = UIScreen.mainScreen().bounds.size.width
-            
-            UIView.animateWithDuration(toaster.animateDuration, delay: 0, options: UIViewAnimationOptions.AllowUserInteraction, animations: {
-                    let showFrame = CGRectMake(0,0,screenWidth,toastButton.frame.height)
-                    toastButton.viewArea.frame = showFrame
-                }, completion: { _ in
-                    UIView.animateWithDuration(toaster.animateDuration, delay: toaster.delayDuration, options: UIViewAnimationOptions.AllowUserInteraction,
-                        animations: {
-                            let hideFrame = CGRectMake(0,0 - toastButton.frame.height,screenWidth,toastButton.frame.height)
-                            toastButton.viewArea.frame = hideFrame
-                        },
-                        completion: { _ in
-                            toastButton.removeFromSuperview()
-                        }
-                    )
-                }
-            )
-            
+            if previousToast != nil {
+                previousToast?.hide({
+                    toastButton.show()
+                })
+            }else{
+                toastButton.show()
+            }
         }
     }
     public class func toastWithIcon(target: UIViewController, text: String, icon:UIImage?, title:String? = nil, backgroundColor:UIColor? = nil, textColor:UIColor? = nil, onTouch: ()->Void = ({})){
@@ -119,6 +103,8 @@ public class QToasterSwift: NSObject {
             toaster.iconImage = icon
             toaster.toastAction = onTouch
             
+            var previousToast: QToasterView?
+            
             if backgroundColor != nil {
                 toaster.backgroundColor = backgroundColor!
             }
@@ -126,8 +112,8 @@ public class QToasterSwift: NSObject {
                 toaster.textColor = textColor!
             }
             
-            if let previousToast = QToasterSwift.otherToastExist(target){
-                previousToast.removeFromSuperview()
+            if let lastToast = QToasterSwift.otherToastExist(target){
+                previousToast = lastToast
             }
             
             let toastButton = QToasterView()
@@ -136,24 +122,13 @@ public class QToasterSwift: NSObject {
             target.navigationController?.view.addSubview(toastButton)
             target.navigationController?.view.userInteractionEnabled = true
             
-            let screenWidth = UIScreen.mainScreen().bounds.size.width
-            
-            UIView.animateWithDuration(toaster.animateDuration, delay: 0, options: UIViewAnimationOptions.AllowUserInteraction, animations: {
-                let showFrame = CGRectMake(0,0,screenWidth,toastButton.frame.height)
-                toastButton.viewArea.frame = showFrame
-                }, completion: { _ in
-                    UIView.animateWithDuration(toaster.animateDuration, delay: toaster.delayDuration, options: UIViewAnimationOptions.AllowUserInteraction,
-                        animations: {
-                            let hideFrame = CGRectMake(0,0 - toastButton.frame.height,screenWidth, toastButton.frame.height)
-                            toastButton.viewArea.frame = hideFrame
-                        },
-                        completion: { _ in
-                            toastButton.removeFromSuperview()
-                        }
-                    )
-                }
-            )
-            
+            if previousToast != nil {
+                previousToast?.hide({ 
+                    toastButton.show()
+                })
+            }else{
+                toastButton.show()
+            }
         }
     }
     class func otherToastExist(target: UIViewController) -> QToasterView?{
