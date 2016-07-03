@@ -166,4 +166,4 @@ toaster.toast(self, onTouch: {
 
 
 ##Support Us
-Please support us with your contribution and/or give us star to keep track this repository fir any update. Thanks.
+Please support us with your contribution and/or give us star to keep track this repository for any update. Thanks.
