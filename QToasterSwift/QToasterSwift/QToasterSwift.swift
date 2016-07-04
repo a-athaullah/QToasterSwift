@@ -58,13 +58,48 @@ public class QToasterSwift: NSObject {
      */
     public var iconURL:String?
     
+    /**
+     Your toaster background color,
+     Default value : UIColor(red: 0, green: 0, blue: 0, alpha: 0.8)
+     */
     public var backgroundColor = QToasterConfig.backgroundColor
+    
+    /**
+     Your toaster background color,
+     Default value : UIColor.whiteColor()
+     */
     public var textColor = QToasterConfig.textColor
+    
+    /**
+     Your toaster animation duration using NSTimeInterval class,
+     Default value : 0.2
+     */
     public var animateDuration = QToasterConfig.animateDuration
+    
+    /**
+     Your toaster delay duration before start to disappar, using NSTimeInterval class,
+     Default value : 3.0
+     */
     public var delayDuration = QToasterConfig.delayDuration
     
+    /**
+     Your toaster badge size (always square), using CGFloat class,
+     Default value : 35.0
+     */
     public var iconSquareSize = QToasterConfig.iconSquareSize
+    
+    /**
+     Your toaster badge corner radius, using CGFloat class,
+     if you want to set circle badge, just set it to half of your icon SquareSize
+     Default value : 3.0
+     */
     public var iconCornerRadius = QToasterConfig.iconCornerRadius
+    
+    /**
+     Your toaster badge background color, using UIColor class,
+     can only shown when using icon badge url without placeholder image
+     Default value : UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1)
+     */
     public var iconBackgroundColor = QToasterConfig.iconBackgroundColor
     
 
