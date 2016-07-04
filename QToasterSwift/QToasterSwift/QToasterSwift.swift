@@ -10,50 +10,50 @@ import UIKit
 
 public class QToasterSwift: NSObject {
     /**
-     On touch action for your toaster
+     On touch action for your toaster,
      Default value: empty Void
     */
     public var toastAction:()->Void = ({})
     
     /**
-     The alignment of text inside your toaster
+     The alignment of text inside your toaster,
      Default value: NSTextAlignment.Center
     */
     public var textAlignment:NSTextAlignment = NSTextAlignment.Center
     
     /**
-     Font type used for toaster title
+     Font type used for toaster title,
      Default value: UIFont.systemFontOfSize(11.0, weight: 0.8)
     */
     public var titleFont = QToasterConfig.titleFont
     
     /**
-     Font type used for toaster text
+     Font type used for toaster text,
      Default value: UIFont.systemFontOfSize(11.0)
     */
     public var textFont = QToasterConfig.textFont
     
     
     /**
-     Your toaster title, can be nil
+     Your toaster title, can be nil,
      Default value: nil
     */
     public var titleText:String?
     
     /**
-     Your toaster message
+     Your toaster message,
      Default value : "" (empty string)
     */
     public var text:String = ""
     
     /**
-     Your toaster icon, can be nil
+     Your toaster icon, can be nil,
      Default value : nil
     */
     public var iconImage:UIImage?
     
     /**
-     Your toaster url icon, can be nil
+     Your toaster url icon, can be nil,
      Default value : nil
      */
     public var iconURL:String?
