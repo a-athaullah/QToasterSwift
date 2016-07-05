@@ -33,7 +33,6 @@ public class QToasterSwift: NSObject {
     */
     public var textFont = QToasterConfig.textFont
     
-    
     /**
      Your toaster title, can be nil,
      Default value: nil
@@ -102,7 +101,12 @@ public class QToasterSwift: NSObject {
      */
     public var iconBackgroundColor = QToasterConfig.iconBackgroundColor
     
-
+    /**
+     Toast message inside your **QToasterSwift** object
+     
+     - Parameter target:   The **UIViewController** where toaster will appear
+     - Parameter onTouch:  **()->Void** as onTouch action for your toaster,
+     */
     public func toast(target: UIViewController, onTouch:()->Void = ({})){
         if text != "" {
             self.addAction(onTouch)
@@ -204,17 +208,10 @@ public class QToasterSwift: NSObject {
             }
         }
     }
+    public func touchAction(){ self.toastAction() }
+    public func addAction(action:()->Void){ self.toastAction = action }
+    
     class func otherToastExist(target: UIViewController) -> QToasterView?{
-        if let toaster = target.navigationController?.view.viewWithTag(1313) as? QToasterView {
-            return toaster
-        }else{
-            return nil
-        }
-    }
-    public func touchAction(){
-        self.toastAction()
-    }
-    public func addAction(action:()->Void){
-        self.toastAction = action
+        return target.navigationController?.view.viewWithTag(1313) as? QToasterView
     }
 }
