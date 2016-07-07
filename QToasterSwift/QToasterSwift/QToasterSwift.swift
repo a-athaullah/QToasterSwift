@@ -105,7 +105,7 @@ public class QToasterSwift: NSObject {
      Toast message inside your **QToasterSwift** object
      
      - Parameter target:   The **UIViewController** where toaster will appear
-     - Parameter onTouch:  **()->Void** as onTouch action for your toaster,
+     - Parameter onTouch:  **()->Void** as onTouch action for your toaster
      */
     public func toast(target: UIViewController, onTouch:()->Void = ({})){
         if text != "" {
@@ -136,6 +136,17 @@ public class QToasterSwift: NSObject {
             
         }
     }
+    /**
+     Class function to show toaster with configuration and without initiation.
+     - parameter target: The **UIViewController** where toaster will appear.
+     - parameter text: **String** message to show in toaster.
+     - parameter title: **String** text to show as toaster title.
+     - parameter iconURL: **String** URL of your icon toaster.
+     - parameter iconPlaceHolder: **UIImage** to show as icon toaster when loading iconURL.
+     - parameter backgroundColor: the **UIColor** as your toaster background color.
+     - parameter textColor: the **UIColor** as your toaster text color.
+     - parameter onTouch: **()->Void** as onTouch action for your toaster.
+     */
     public class func toast(target: UIViewController, text: String, title:String? = nil, iconURL:String? = nil, iconPlaceHolder:UIImage? = nil, backgroundColor:UIColor? = nil, textColor:UIColor? = nil, onTouch: ()->Void = ({})){
         if text != "" {
             let toaster = QToasterSwift()
