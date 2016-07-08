@@ -229,9 +229,20 @@ public class QToasterSwift: NSObject {
             }
         }
     }
-    public func touchAction(){ self.toastAction() }
+    /**
+     Private methode executed on QToaster onTouch
+     */
+    func touchAction(){ self.toastAction() }
+    /**
+     Add onTouch action to QToaster
+     - parameter action: **()->Void** as onTouch action for your toaster.
+     */
     public func addAction(action:()->Void){ self.toastAction = action }
-    
+    /**
+     Private function helper to check if other QToaster is shown
+     - parameter target: The **UIViewController** to check.
+     - returns: **QToasterView** object if QToaster is exist and nil if not.
+     */
     class func otherToastExist(target: UIViewController) -> QToasterView?{
         return target.navigationController?.view.viewWithTag(1313) as? QToasterView
     }
