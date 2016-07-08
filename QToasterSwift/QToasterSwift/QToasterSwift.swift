@@ -183,6 +183,16 @@ public class QToasterSwift: NSObject {
             }
         }
     }
+    /**
+     Class function to show toaster with badge icon
+     - parameter target: The **UIViewController** where toaster will appear.
+     - parameter text: **String** message to show in toaster.
+     - parameter title: **String** text to show as toaster title.
+     - parameter icon: **UIImage** to show as badge icon toaster.
+     - parameter backgroundColor: the **UIColor** as your toaster background color.
+     - parameter textColor: the **UIColor** as your toaster text color.
+     - parameter onTouch: **()->Void** as onTouch action for your toaster.
+     */
     public class func toastWithIcon(target: UIViewController, text: String, icon:UIImage?, title:String? = nil, backgroundColor:UIColor? = nil, textColor:UIColor? = nil, onTouch: ()->Void = ({})){
         if text != "" {
             let toaster = QToasterSwift()
