@@ -14,9 +14,11 @@ class QToasterView: UIButton {
      Define toaster to use variable and function on QToasterSwift
      */
     var toaster = QToasterSwift()
-    
+    /**
+     Define area view to toaster
+    */
     var viewArea = UIView()
-    
+
     var minHeight:CGFloat{
         return QToasterConfig.statusBarHeight + 40
     }
