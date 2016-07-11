@@ -11,21 +11,25 @@ import UIKit
 class QToasterView: UIButton {
     
     /**
-     Define toaster to use variable and function on QToasterSwift
+     Define toaster to use variable and function on QToasterSwift.
      */
     var toaster = QToasterSwift()
     /**
-     Define area view to toaster
+     Define area view to toaster.
     */
     var viewArea = UIView()
 
     /**
-     Minimum height for toaster
+     Minimum height for toaster in CGFloat.
      - returns: Height of status bar + 40 on **QToasterConfig**.
      */
     var minHeight:CGFloat{
         return QToasterConfig.statusBarHeight + 40
     }
+    /**
+     Your toaster text size in CGSize. This is defined again to distinguish if there is a badge.
+     - returns: toaster text size consist of toaster text, font and maximum width
+    */
     var textSize:CGSize{
         if toaster.iconImage == nil && (toaster.iconURL == nil || toaster.iconURL == "") {
             return QToasterConfig.textSize(toaster.text, font: toaster.textFont, maxWidth: QToasterConfig.screenWidth)
@@ -33,6 +37,7 @@ class QToasterView: UIButton {
             return QToasterConfig.textSize(toaster.text, font: toaster.textFont, maxWidth: QToasterConfig.screenWidth - toaster.iconSquareSize - 25)
         }
     }
+    
     var titleSize:CGSize{
         if toaster.titleText != nil && toaster.titleText != ""{
             if toaster.iconImage == nil && (toaster.iconURL == nil || toaster.iconURL == "") {
