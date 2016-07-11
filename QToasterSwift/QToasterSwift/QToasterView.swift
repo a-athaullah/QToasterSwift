@@ -65,14 +65,20 @@ class QToasterView: UIButton {
         commonInit()
     }
     
-    
+    /**
+     Function will be called on override. 
+     It is called whenever creating objects.
+     */
     func commonInit(){
         self.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
         self.tag = 1313
         self.layer.zPosition = 9999
     }
     
-    
+    /**
+     To configure toaster view
+     - parameter toaster: QToasterSwift.
+    */
     func setupToasterView(toaster: QToasterSwift){
         self.toaster = toaster
         
