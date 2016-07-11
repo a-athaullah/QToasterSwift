@@ -10,7 +10,11 @@ import UIKit
 
 class QToasterView: UIButton {
     
+    /**
+     Define toaster to use variable and function on QToasterSwift
+     */
     var toaster = QToasterSwift()
+    
     var viewArea = UIView()
     
     var minHeight:CGFloat{
