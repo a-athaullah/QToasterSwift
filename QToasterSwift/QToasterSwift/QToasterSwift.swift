@@ -10,8 +10,7 @@ import UIKit
 
 public class QToasterSwift: NSObject {
     /**
-     On touch action for your toaster,
-     Default value: empty Void
+     On touch action for your toaster, Default value: empty Void
     */
     public var toastAction:()->Void = ({})
     
