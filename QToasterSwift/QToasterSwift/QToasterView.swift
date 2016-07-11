@@ -27,8 +27,9 @@ class QToasterView: UIButton {
         return QToasterConfig.statusBarHeight + 40
     }
     /**
-     Your toaster text size in CGSize. This is defined again to distinguish if there is a badge.
-     - returns: toaster text size consist of toaster text, font and maximum width
+     Your toaster text size in CGSize. 
+     This is defined again to distinguish if there is a badge.
+     - returns: Toaster text size consist of toaster text, font and maximum width
     */
     var textSize:CGSize{
         if toaster.iconImage == nil && (toaster.iconURL == nil || toaster.iconURL == "") {
@@ -37,7 +38,10 @@ class QToasterView: UIButton {
             return QToasterConfig.textSize(toaster.text, font: toaster.textFont, maxWidth: QToasterConfig.screenWidth - toaster.iconSquareSize - 25)
         }
     }
-    
+    /**
+     Your toaster title size in CGSize.
+     - returns: If toaster title text is nil and blank then toaster text size consist of toaster text, font and maximum width. Otherwise, set CGSizeMake(0, 0)
+    */
     var titleSize:CGSize{
         if toaster.titleText != nil && toaster.titleText != ""{
             if toaster.iconImage == nil && (toaster.iconURL == nil || toaster.iconURL == "") {
@@ -60,6 +64,7 @@ class QToasterView: UIButton {
         super.init(coder: aDecoder)
         commonInit()
     }
+    
     
     func commonInit(){
         self.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
