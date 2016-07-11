@@ -15,80 +15,67 @@ public class QToasterSwift: NSObject {
     public var toastAction:()->Void = ({})
     
     /**
-     The alignment of text inside your toaster,
-     Default value: NSTextAlignment.Center
+     The alignment of text inside your toaster, Default value: NSTextAlignment.Center
     */
     public var textAlignment:NSTextAlignment = NSTextAlignment.Center
     
     /**
-     Font type used for toaster title,
-     Default value: UIFont.systemFontOfSize(11.0, weight: 0.8)
+     Font type used for toaster title, Default value: UIFont.systemFontOfSize(11.0, weight: 0.8)
     */
     public var titleFont = QToasterConfig.titleFont
     
     /**
-     Font type used for toaster text,
-     Default value: UIFont.systemFontOfSize(11.0)
+     Font type used for toaster text, Default value: UIFont.systemFontOfSize(11.0)
     */
     public var textFont = QToasterConfig.textFont
     
     /**
-     Your toaster title, can be nil,
-     Default value: nil
+     Your toaster title, can be nil, Default value: nil
     */
     public var titleText:String?
     
     /**
-     Your toaster message,
-     Default value : "" (empty string)
+     Your toaster message, Default value : "" (empty string)
     */
     public var text:String = ""
     
     /**
-     Your toaster icon, can be nil,
-     Default value : nil
+     Your toaster icon, can be nil, Default value : nil
     */
     public var iconImage:UIImage?
     
     /**
-     Your toaster url icon, can be nil,
-     Default value : nil
+     Your toaster url icon, can be nil, Default value : nil
      */
     public var iconURL:String?
     
     /**
-     Your toaster background color,
-     Default value : UIColor(red: 0, green: 0, blue: 0, alpha: 0.8)
+     Your toaster background color, Default value : UIColor(red: 0, green: 0, blue: 0, alpha: 0.8)
      */
     public var backgroundColor = QToasterConfig.backgroundColor
     
     /**
-     Your toaster background color,
-     Default value : UIColor.whiteColor()
+     Your toaster background color, Default value : UIColor.whiteColor()
      */
     public var textColor = QToasterConfig.textColor
     
     /**
-     Your toaster animation duration using NSTimeInterval class,
-     Default value : 0.2
+     Your toaster animation duration using NSTimeInterval class, Default value : 0.2
      */
     public var animateDuration = QToasterConfig.animateDuration
     
     /**
-     Your toaster delay duration before start to disappar, using NSTimeInterval class,
-     Default value : 3.0
+     Your toaster delay duration before start to disappar, using NSTimeInterval class, Default value : 3.0
      */
     public var delayDuration = QToasterConfig.delayDuration
     
     /**
-     Your toaster badge size (always square), using CGFloat class,
-     Default value : 35.0
+     Your toaster badge size (always square), using CGFloat class, Default value : 35.0
      */
     public var iconSquareSize = QToasterConfig.iconSquareSize
     
     /**
-     Your toaster badge corner radius, using CGFloat class,
-     if you want to set circle badge, just set it to half of your icon SquareSize
+     Your toaster badge corner radius, using CGFloat class, if you want to set circle badge, just set it to half of your icon SquareSize
      Default value : 3.0
      */
     public var iconCornerRadius = QToasterConfig.iconCornerRadius
