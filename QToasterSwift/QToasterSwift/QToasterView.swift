@@ -158,7 +158,9 @@ class QToasterView: UIButton {
         self.addSubview(viewArea)
     }
     
-    
+    /**
+     To show toaster
+    */
     func show(){
         UIView.animateWithDuration(self.toaster.animateDuration, delay: 0, options: UIViewAnimationOptions.AllowUserInteraction, animations: {
             let showFrame = CGRectMake(0,0,QToasterConfig.screenWidth,self.frame.height)
@@ -169,6 +171,11 @@ class QToasterView: UIButton {
         )
         
     }
+    
+    /**
+     To hide toaster
+      - parameter completion: **()->Void** as hide for your toaster.
+     */
     func hide(completion: () -> Void = ({})){
         UIView.animateWithDuration(self.toaster.animateDuration, delay: self.toaster.delayDuration, options: UIViewAnimationOptions.AllowUserInteraction,
             animations: {
