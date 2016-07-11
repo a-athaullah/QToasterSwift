@@ -19,6 +19,10 @@ class QToasterView: UIButton {
     */
     var viewArea = UIView()
 
+    /**
+     Minimum height for toaster
+     - returns: Height of status bar + 40 on **QToasterConfig**.
+     */
     var minHeight:CGFloat{
         return QToasterConfig.statusBarHeight + 40
     }
