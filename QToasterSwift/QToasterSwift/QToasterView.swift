@@ -10,12 +10,27 @@ import UIKit
 
 class QToasterView: UIButton {
     
+    /**
+     Define toaster to use variable and function on QToasterSwift.
+     */
     var toaster = QToasterSwift()
+    /**
+     Define area view to toaster.
+    */
     var viewArea = UIView()
-    
+
+    /**
+     Minimum height for toaster in CGFloat.
+     - returns: Height of status bar + 40 on **QToasterConfig**.
+     */
     var minHeight:CGFloat{
         return QToasterConfig.statusBarHeight + 40
     }
+    /**
+     Your toaster text size in CGSize. 
+     This is defined again to distinguish if there is a badge.
+     - returns: Toaster text size consist of toaster text, font and maximum width
+    */
     var textSize:CGSize{
         if toaster.iconImage == nil && (toaster.iconURL == nil || toaster.iconURL == "") {
             return QToasterConfig.textSize(toaster.text, font: toaster.textFont, maxWidth: QToasterConfig.screenWidth)
@@ -23,6 +38,10 @@ class QToasterView: UIButton {
             return QToasterConfig.textSize(toaster.text, font: toaster.textFont, maxWidth: QToasterConfig.screenWidth - toaster.iconSquareSize - 25)
         }
     }
+    /**
+     Your toaster title size in CGSize.
+     - returns: If toaster title text is nil and blank then toaster text size consist of toaster text, font and maximum width. Otherwise, set CGSizeMake(0, 0)
+    */
     var titleSize:CGSize{
         if toaster.titleText != nil && toaster.titleText != ""{
             if toaster.iconImage == nil && (toaster.iconURL == nil || toaster.iconURL == "") {
@@ -46,13 +65,20 @@ class QToasterView: UIButton {
         commonInit()
     }
     
+    /**
+     Function will be called on override. 
+     It is called whenever creating objects.
+     */
     func commonInit(){
         self.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
         self.tag = 1313
         self.layer.zPosition = 9999
     }
     
-    
+    /**
+     To configure toaster view
+     - parameter toaster: QToasterSwift.
+    */
     func setupToasterView(toaster: QToasterSwift){
         self.toaster = toaster
         
@@ -132,7 +158,9 @@ class QToasterView: UIButton {
         self.addSubview(viewArea)
     }
     
-    
+    /**
+     To show toaster
+    */
     func show(){
         UIView.animateWithDuration(self.toaster.animateDuration, delay: 0, options: UIViewAnimationOptions.AllowUserInteraction, animations: {
             let showFrame = CGRectMake(0,0,QToasterConfig.screenWidth,self.frame.height)
@@ -143,6 +171,11 @@ class QToasterView: UIButton {
         )
         
     }
+    
+    /**
+     To hide toaster
+      - parameter completion: **()->Void** as hide for your toaster.
+     */
     func hide(completion: () -> Void = ({})){
         UIView.animateWithDuration(self.toaster.animateDuration, delay: self.toaster.delayDuration, options: UIViewAnimationOptions.AllowUserInteraction,
             animations: {
