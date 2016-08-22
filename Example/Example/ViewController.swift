@@ -131,7 +131,9 @@ class ViewController: UIViewController {
     }
     func toaster3(){
         if messageField.text != nil && messageField.text != "" {
-            QToasterSwift.toast(self, text: messageField.text, title: titleField.text, iconURL: urlField.text, iconPlaceHolder: UIImage(named: "avatar"))
+            QToasterSwift.toast(self, text: messageField.text, title: titleField.text, iconURL: urlField.text, iconPlaceHolder: UIImage(named: "avatar"),onTouch:{
+                print("working")
+            })
         }else{
             QToasterSwift.toast(self, text: errorText, title: "ERROR", backgroundColor: errorColor)
         }
