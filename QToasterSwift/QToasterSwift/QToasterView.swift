@@ -153,7 +153,7 @@ class QToasterView: UIButton {
         viewArea.addSubview(textLabel)
         
         self.frame = CGRectMake(0, 0, QToasterConfig.screenWidth, toasterHeight)
-        self.backgroundColor = UIColor(red: 1, green: 0, blue: 0, alpha: 1)
+        self.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
         self.addTarget(self, action: #selector(QToasterView.touchAction), forControlEvents: UIControlEvents.TouchUpInside)
         self.addSubview(viewArea)
     }
@@ -164,7 +164,7 @@ class QToasterView: UIButton {
      To show toaster
     */
     func show(){
-        UIView.animateWithDuration(self.toaster.animateDuration, delay: 2, options: UIViewAnimationOptions.AllowUserInteraction, animations: {
+        UIView.animateWithDuration(self.toaster.animateDuration, delay: 0, options: UIViewAnimationOptions.AllowUserInteraction, animations: {
             let showFrame = CGRectMake(0,0,QToasterConfig.screenWidth,self.frame.height)
             self.viewArea.frame = showFrame
             }, completion: { _ in
