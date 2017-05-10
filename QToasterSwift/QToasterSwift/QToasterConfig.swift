@@ -13,12 +13,12 @@ class QToasterConfig: NSObject {
     
     class var textFont:UIFont{
         get{
-            return UIFont.systemFontOfSize(11.0)
+            return UIFont.systemFont(ofSize: 11.0)
         }
     }
     class var titleFont:UIFont{
         get{
-            return UIFont.systemFontOfSize(11.0, weight: 0.8)
+            return UIFont.systemFont(ofSize: 11.0, weight: 0.8)
         }
     }
     
@@ -29,7 +29,7 @@ class QToasterConfig: NSObject {
     }
     class var textColor:UIColor{
         get{
-            return UIColor.whiteColor()
+            return UIColor.white
         }
     }
     class var iconBackgroundColor:UIColor{
@@ -38,12 +38,12 @@ class QToasterConfig: NSObject {
         }
     }
     
-    class var animateDuration:NSTimeInterval{
+    class var animateDuration:TimeInterval{
         get{
             return 0.2
         }
     }
-    class var delayDuration:NSTimeInterval{
+    class var delayDuration:TimeInterval{
         get{
             return 3.0
         }
@@ -61,17 +61,17 @@ class QToasterConfig: NSObject {
     }
     class var screenWidth:CGFloat{
         get{
-            return UIScreen.mainScreen().bounds.size.width
+            return UIScreen.main.bounds.size.width
         }
     }
     class var statusBarHeight:CGFloat{
         get{
-            return UIApplication.sharedApplication().statusBarFrame.size.height
+            return UIApplication.shared.statusBarFrame.size.height
         }
     }
     
-    class func textSize(text: NSString, font: UIFont, maxWidth: CGFloat)->CGSize{
-        let rect = text.boundingRectWithSize(CGSizeMake(maxWidth, CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil) as CGRect
+    class func textSize(_ text: String, font: UIFont, maxWidth: CGFloat)->CGSize{
+        let rect = text.boundingRect(with: CGSize(width: maxWidth, height: CGFloat.greatestFiniteMagnitude), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil) as CGRect
         return rect.size
     }
     
@@ -83,37 +83,37 @@ class QToasterConfig: NSObject {
     //  git: https://github.com/natelyman/SwiftImageLoader
     //  Copyright (c) 2014 NateLyman.com. All rights reserved.
     //
-    class func imageForUrl(urlString: String, header: [String : String] = [String : String](), completionHandler:(image: UIImage?, url: String) -> ()) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {()in
-            let cache = NSCache()
-            let data: NSData? = cache.objectForKey(urlString) as? NSData
+    class func imageForUrl(_ urlString: String, header: [String : String] = [String : String](), completionHandler:@escaping (_ image: UIImage?, _ url: String) -> ()) {
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async {
+            let cache = NSCache<AnyObject, AnyObject>()
+            let data: Data? = cache.object(forKey: urlString as AnyObject) as? Data
             
             if let goodData = data {
                 let image = UIImage(data: goodData)
-                dispatch_async(dispatch_get_main_queue(), {() in
-                    completionHandler(image: image, url: urlString)
+                DispatchQueue.main.async(execute: {() in
+                    completionHandler(image, urlString)
                 })
                 return
             }
             if header.count > 0 {
-                let url = NSURL(string: urlString)
-                let mutableRequest = NSMutableURLRequest(URL: url!)
+                let url = URL(string: urlString)
+                var mutableRequest = URLRequest(url: url!)
                 
                 for (key, value) in header {
                     mutableRequest.setValue(key, forHTTPHeaderField: value)
                 }
                 
-                let downloadTask: NSURLSessionDataTask = NSURLSession.sharedSession().dataTaskWithRequest(mutableRequest, completionHandler: {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
+                let downloadTask: URLSessionDataTask = URLSession.shared.dataTask(with: mutableRequest, completionHandler: {(data: Data?, response: URLResponse?, error: Error?)  in
                     if (error != nil) {
-                        completionHandler(image: nil, url: urlString)
+                        completionHandler(nil, urlString)
                         return
                     }
                     
                     if let data = data {
                         let image = UIImage(data: data)
-                        cache.setObject(data, forKey: urlString)
-                        dispatch_async(dispatch_get_main_queue(), {() in
-                            completionHandler(image: image, url: urlString)
+                        cache.setObject(data as AnyObject, forKey: urlString as AnyObject)
+                        DispatchQueue.main.async(execute: {() in
+                            completionHandler(image, urlString)
                         })
                         return
                     }
@@ -121,17 +121,17 @@ class QToasterConfig: NSObject {
                 })
                 downloadTask.resume()
             }else{
-                let downloadTask: NSURLSessionDataTask = NSURLSession.sharedSession().dataTaskWithURL(NSURL(string: urlString)!, completionHandler: {(data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
+                let downloadTask: URLSessionDataTask = URLSession.shared.dataTask(with: URL(string: urlString)!, completionHandler: {(data: Data?, response: URLResponse?, error: Error?) -> Void in
                     if (error != nil) {
-                        completionHandler(image: nil, url: urlString)
+                        completionHandler(nil, urlString)
                         return
                     }
                     
                     if let data = data {
                         let image = UIImage(data: data)
-                        cache.setObject(data, forKey: urlString)
-                        dispatch_async(dispatch_get_main_queue(), {() in
-                            completionHandler(image: image, url: urlString)
+                        cache.setObject(data as AnyObject, forKey: urlString as AnyObject)
+                        DispatchQueue.main.async(execute: {() in
+                            completionHandler(image, urlString)
                         })
                         return
                     }
@@ -139,7 +139,7 @@ class QToasterConfig: NSObject {
                 })
                 downloadTask.resume()
             }
-        })
+        }
         
     }
     
