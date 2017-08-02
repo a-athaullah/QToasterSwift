@@ -50,7 +50,7 @@ class QToasterView: UIButton {
                 return QToasterConfig.textSize(toaster.titleText!, font: toaster.textFont, maxWidth: QToasterConfig.screenWidth -  toaster.iconSquareSize - 25)
             }
         }else{
-            return CGSizeMake(0, 0)
+            return CGSize(width: 0, height: 0)
         }
     }
     
@@ -79,7 +79,7 @@ class QToasterView: UIButton {
      To configure toaster view
      - parameter toaster: QToasterSwift.
     */
-    func setupToasterView(toaster: QToasterSwift){
+    func setupToasterView(_ toaster: QToasterSwift){
         self.toaster = toaster
         
         var textAreaWidth =  QToasterConfig.screenWidth - 20
@@ -89,7 +89,7 @@ class QToasterView: UIButton {
         if toaster.iconImage != nil || (toaster.iconURL != nil && toaster.iconURL != ""){
             imageToasterHeight = toaster.iconSquareSize + QToasterConfig.statusBarHeight + 20
             textAreaWidth -= (toaster.iconSquareSize + 5)
-            toaster.textAlignment = NSTextAlignment.Left
+            toaster.textAlignment = NSTextAlignment.left
             textXPos += toaster.iconSquareSize + 5
         }
         
@@ -108,14 +108,14 @@ class QToasterView: UIButton {
         
         var yPos:CGFloat = QToasterConfig.statusBarHeight + 10
         
-        let toasterViewFrame = CGRectMake(0,0 - toasterHeight, QToasterConfig.screenWidth,toasterHeight)
+        let toasterViewFrame = CGRect(x: 0,y: 0 - toasterHeight, width: QToasterConfig.screenWidth,height: toasterHeight)
         
         viewArea.frame = toasterViewFrame
-        viewArea.userInteractionEnabled = false
+        viewArea.isUserInteractionEnabled = false
         viewArea.backgroundColor = toaster.backgroundColor
         
         if toaster.iconImage != nil || (toaster.iconURL != nil && toaster.iconURL != ""){
-            let iconView = UIImageView(frame: CGRectMake(10, yPos, toaster.iconSquareSize, toaster.iconSquareSize))
+            let iconView = UIImageView(frame: CGRect(x: 10, y: yPos, width: toaster.iconSquareSize, height: toaster.iconSquareSize))
             iconView.backgroundColor = toaster.iconBackgroundColor
             iconView.layer.cornerRadius = toaster.iconCornerRadius
             iconView.clipsToBounds = true
@@ -132,7 +132,7 @@ class QToasterView: UIButton {
         }
         
         if toaster.titleText != nil && toaster.titleText != "" {
-            let titleLabel = UILabel(frame: CGRectMake(textXPos, yPos, textAreaWidth, self.titleSize.height))
+            let titleLabel = UILabel(frame: CGRect(x: textXPos, y: yPos, width: textAreaWidth, height: self.titleSize.height))
             titleLabel.numberOfLines = 0
             titleLabel.textAlignment = toaster.textAlignment
             titleLabel.text = toaster.titleText
@@ -144,7 +144,7 @@ class QToasterView: UIButton {
             yPos = ((toasterHeight - self.textSize.height) / 2) + 10
         }
         
-        let textLabel = UILabel(frame: CGRectMake(textXPos, yPos, textAreaWidth, self.textSize.height))
+        let textLabel = UILabel(frame: CGRect(x: textXPos, y: yPos, width: textAreaWidth, height: self.textSize.height))
         textLabel.text = toaster.text
         textLabel.textAlignment = toaster.textAlignment
         textLabel.textColor = toaster.textColor
@@ -152,9 +152,9 @@ class QToasterView: UIButton {
         textLabel.font = toaster.textFont
         viewArea.addSubview(textLabel)
         
-        self.frame = CGRectMake(0, 0, QToasterConfig.screenWidth, toasterHeight)
+        self.frame = CGRect(x: 0, y: 0, width: QToasterConfig.screenWidth, height: toasterHeight)
         self.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
-        self.addTarget(self, action: #selector(QToasterView.touchAction), forControlEvents: UIControlEvents.TouchUpInside)
+        self.addTarget(self, action: #selector(QToasterView.touchAction), for: UIControlEvents.touchUpInside)
         self.addSubview(viewArea)
     }
     func touchAction(){
@@ -164,8 +164,8 @@ class QToasterView: UIButton {
      To show toaster
     */
     func show(){
-        UIView.animateWithDuration(self.toaster.animateDuration, delay: 0, options: UIViewAnimationOptions.AllowUserInteraction, animations: {
-            let showFrame = CGRectMake(0,0,QToasterConfig.screenWidth,self.frame.height)
+        UIView.animate(withDuration: self.toaster.animateDuration, delay: 0, options: UIViewAnimationOptions.allowUserInteraction, animations: {
+            let showFrame = CGRect(x: 0,y: 0,width: QToasterConfig.screenWidth,height: self.frame.height)
             self.viewArea.frame = showFrame
             }, completion: { _ in
                 self.hide()
@@ -178,14 +178,14 @@ class QToasterView: UIButton {
      To hide toaster
       - parameter completion: **()->Void** as hide for your toaster.
      */
-    func hide(completion: () -> Void = ({})){
-        UIView.animateWithDuration(self.toaster.animateDuration, delay: self.toaster.delayDuration, options: UIViewAnimationOptions.AllowUserInteraction,
+    func hide(_ completion: @escaping () -> Void = ({})){
+        UIView.animate(withDuration: self.toaster.animateDuration, delay: self.toaster.delayDuration, options: UIViewAnimationOptions.allowUserInteraction,
             animations: {
-                let hideFrame = CGRectMake(0,0 - self.frame.height,QToasterConfig.screenWidth,self.frame.height)
+                let hideFrame = CGRect(x: 0,y: 0 - self.frame.height,width: QToasterConfig.screenWidth,height: self.frame.height)
                 self.viewArea.frame = hideFrame
             },
             completion: { _ in
-                self.hidden = true
+                self.isHidden = true
                 self.removeFromSuperview()
                 completion()
             }
